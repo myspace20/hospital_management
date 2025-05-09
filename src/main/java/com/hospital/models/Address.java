@@ -1,4 +1,4 @@
-package com.hospital.models.base;
+package com.hospital.models;
 
 public class Address {
     private int address_id;

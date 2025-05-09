@@ -1,4 +1,4 @@
-package com.hospital.models.base;
+package com.hospital.models;
 
 import java.util.List;
 import java.util.Optional;
