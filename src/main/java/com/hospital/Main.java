@@ -1,17 +1,54 @@
 package com.hospital;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.hospital.infrastructure.dao.PatientDAO;
+import com.hospital.models.Patient;
+
+import java.util.List;
+
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        PatientDAO patientDAO = new PatientDAO();
+
+
+        Patient newPatient = new Patient("Jane", "Doe", "08123456789");
+        newPatient.setAddressId(1);
+        patientDAO.save(newPatient);
+        System.out.println("Patient created.");
+
+
+        List<Patient> patients = patientDAO.getAll();
+        System.out.println("\nAll Patients:");
+        for (Patient p : patients) {
+            System.out.println(p);
         }
+
+
+        if (!patients.isEmpty()) {
+            Patient patientToUpdate = patients.get(0);
+            patientToUpdate.setPhoneNumber("09000000000");
+            patientToUpdate.setFirstName("John");
+            patientToUpdate.setAddressId(1);
+
+            String[] params = {
+                    patientToUpdate.getFirstName(),
+                    patientToUpdate.getSurname(),
+                    patientToUpdate.getPhoneNumber()
+            };
+
+            patientDAO.update(patientToUpdate, params);
+            System.out.println("\nPatient updated.");
+        }
+
+        if (!patients.isEmpty()) {
+            Patient patientToDelete = patients.get(patients.size() - 1);
+            patientDAO.delete(patientToDelete);
+            System.out.println("\nPatient deleted.");
+        }
+
+        patientDAO.getAll().forEach(System.out::println);
+
+
     }
 }
